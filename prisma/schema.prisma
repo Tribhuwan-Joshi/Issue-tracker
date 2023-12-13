@@ -6,6 +6,21 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Issue {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255) // override Varchar(191)
+  description String   @db.Text // Large Varchar
+  status      Status   @default(OPEN)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt // @updatedAt store value the document updatedAt
+}
+
+enum Status {
+  OPEN
+  IN_PROGRESS
+  CLOSED
 }
