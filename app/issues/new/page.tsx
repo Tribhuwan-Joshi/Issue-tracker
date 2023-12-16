@@ -10,6 +10,7 @@ import axios from "axios";
 import { useState } from "react";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
+import Spinner from "@/app/components/Spinner";
 
 // infer type using zod
 type IssueForm = z.infer<typeof createIssueSchema>;
@@ -17,12 +18,11 @@ type IssueForm = z.infer<typeof createIssueSchema>;
 const NewIssue = () => {
   const router = useRouter();
   const [error, setError] = useState("");
-
   const {
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<IssueForm>({
     resolver: zodResolver(createIssueSchema),
   });
@@ -60,8 +60,10 @@ const NewIssue = () => {
           />
           <ErrorMessage>{errors.description?.message}</ErrorMessage>
         </div>
-
-        <Button>Submit New Issue</Button>
+        <div className="flex gap-2">
+          <Button disabled={isSubmitting}>Submit New Issue</Button>{" "}
+          {isSubmitting && <Spinner />}
+        </div>
       </form>
     </div>
   );
