@@ -9,6 +9,7 @@ import { createIssueSchema } from "@/app/validationSchema";
 import axios from "axios";
 import { useState } from "react";
 import { z } from "zod";
+import ErrorMessage from "@/app/components/ErrorMessage";
 
 // infer type using zod
 type IssueForm = z.infer<typeof createIssueSchema>;
@@ -47,11 +48,7 @@ const NewIssue = () => {
           <TextField.Root className="max-w-full">
             <TextField.Input {...register("title")} placeholder="Title" />
           </TextField.Root>
-          {errors.title && (
-            <Text color="red" as="p">
-              {errors.title.message}
-            </Text>
-          )}
+          <ErrorMessage>{errors.title?.message}</ErrorMessage>
         </div>
         <div>
           <Controller
@@ -61,11 +58,7 @@ const NewIssue = () => {
               <SimpleMDE placeholder="Description" {...field} />
             )}
           />
-          {errors.description && (
-            <Text color="red" as="p">
-              {errors.description.message}
-            </Text>
-          )}
+          <ErrorMessage>{errors.description?.message}</ErrorMessage>
         </div>
 
         <Button>Submit New Issue</Button>
