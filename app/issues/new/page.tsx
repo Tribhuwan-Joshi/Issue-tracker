@@ -61,7 +61,7 @@ const NewIssue = () => {
           <ErrorMessage>{errors.description?.message}</ErrorMessage>
         </div>
         <div className="flex gap-2">
-          <Button disabled={isSubmitting}>Submit New Issue</Button>{" "}
+          <Button disabled={isSubmitting}>Submit New Issue</Button>
           {isSubmitting && <Spinner />}
         </div>
       </form>

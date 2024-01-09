@@ -1,3 +1,5 @@
+// get from tailwind-element
+
 const Spinner = () => {
   return (
     <div className="flex items-center">
