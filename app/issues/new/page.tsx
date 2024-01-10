@@ -1,5 +1,5 @@
 "use client";
-import SimpleMDE from "react-simplemde-editor";
+import SimpleMDE from "react-simplemde-editor"
 import "easymde/dist/easymde.min.css";
 import { Button, Callout, TextField } from "@radix-ui/themes";
 import { useForm, Controller } from "react-hook-form";
@@ -9,8 +9,12 @@ import { createIssueSchema } from "@/app/validationSchema";
 import axios from "axios";
 import { useState } from "react";
 import { z } from "zod";
-import ErrorMessage from "@/app/components/ErrorMessage";
-import Spinner from "@/app/components/Spinner";
+import { ErrorMessage, Spinner } from "@/app/components"
+
+
+// const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+//   ssr: false,
+// });
 
 // infer type using zod
 type IssueForm = z.infer<typeof createIssueSchema>;
@@ -35,8 +39,6 @@ const NewIssue = () => {
       setError("An unexpected error occurred.");
     }
   });
-
-
 
   return (
     <div className="max-w-xl">
