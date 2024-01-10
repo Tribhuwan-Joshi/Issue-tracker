@@ -27,7 +27,7 @@ export default function RootLayout({
         <Theme>
           <Theme accentColor="iris">
             <NavBar />
-            <main className="p-5">{children}</main>
+            <main className="p-5 text-lg">{children}</main>
           </Theme>
         </Theme>
       </body>
