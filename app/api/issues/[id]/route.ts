@@ -45,4 +45,6 @@ export async function DELETE(
     where: { id },
   });
   return NextResponse.json({});
+
+  
 }
