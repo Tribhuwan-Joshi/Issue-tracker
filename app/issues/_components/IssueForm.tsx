@@ -1,23 +1,25 @@
 "use client";
+
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import { Button, Callout, TextField } from "@radix-ui/themes";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { createIssueSchema } from "@/app/validationSchema";
+import { issueSchema } from "@/app/validationSchema";
 import axios from "axios";
 import { useState } from "react";
 import { z } from "zod";
 import { ErrorMessage, Spinner } from "@/app/components";
 import { Issue } from "@prisma/client";
+// import dynamic from "next/dynamic";
 
 // const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 //   ssr: false,
 // });
 
 // infer type using zod
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof issueSchema>;
 
 const IssueForm = ({ issue }: { issue?: Issue }) => {
   const router = useRouter();
@@ -28,13 +30,15 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<IssueFormData>({
-    resolver: zodResolver(createIssueSchema),
+    resolver: zodResolver(issueSchema),
   });
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await axios.post("/api/issues", data);
+      if (issue) await axios.patch("/api/issues/" + issue.id, data);
+      else await axios.post("/api/issues", data);
       router.push("/issues");
+      router.refresh(); // refersh content
     } catch (error) {
       setError("An unexpected error occurred.");
     }
@@ -64,13 +68,15 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
             control={control}
             defaultValue={issue?.description}
             render={({ field }) => (
-              <SimpleMDE placeholder="Description" {...field} />
+              <SimpleMDE placeholder="description" {...field} />
             )}
           />
           <ErrorMessage>{errors.description?.message}</ErrorMessage>
         </div>
         <div className="flex gap-2">
-          <Button disabled={isSubmitting}>Submit New Issue</Button>
+          <Button disabled={isSubmitting}>
+            {issue ? "Update Issue" : "Submit New Issue"}{" "}
+          </Button>
           {isSubmitting && <Spinner />}
         </div>
       </form>

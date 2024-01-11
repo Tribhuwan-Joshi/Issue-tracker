@@ -9,4 +9,5 @@ const EditIssuePage = async ({ params }: { params: { id: string } }) => {
   if (!issue) notFound();
   return <IssueForm issue={issue} />;
 };
+
 export default EditIssuePage;
