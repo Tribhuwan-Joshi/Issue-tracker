@@ -32,14 +32,13 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     try {
       if (issue) await axios.patch("/api/issues/" + issue.id, data);
       else await axios.post("/api/issues", data);
-      router.push("/issues");
+      router.push("/issues/list");
       router.refresh(); // refersh content
     } catch (error) {
       setError("An unexpected error occurred.");
     }
   });
 
-  
   return (
     <div className="max-w-xl">
       {error && (
