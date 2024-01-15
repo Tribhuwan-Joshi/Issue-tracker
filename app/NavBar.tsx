@@ -5,8 +5,15 @@ import { usePathname } from "next/navigation";
 import { AiFillBug } from "react-icons/ai";
 import classnames from "classnames";
 import { useSession } from "next-auth/react";
-import { Box, Button, Flex ,Container} from "@radix-ui/themes";
-
+import {
+  Box,
+  Button,
+  Flex,
+  Container,
+  DropdownMenu,
+  Avatar,
+  Text,
+} from "@radix-ui/themes";
 
 const NavBar = () => {
   const currentPath = usePathname();
@@ -20,7 +27,7 @@ const NavBar = () => {
   return (
     <nav className=" py-6 space-x-6  mb-5 px-5 border-b">
       <Container>
-        <Flex direction="row" justify="between">
+        <Flex direction="row" align="center" justify="between">
           <Box>
             <Flex gap="4" align="center">
               <Link href="/">
@@ -46,9 +53,17 @@ const NavBar = () => {
           </Box>
           <Box>
             {status == "authenticated" && (
-              <Button color="red" variant="soft">
-                <Link href="/api/auth/signout">Logout</Link>
-              </Button>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger className="cursor-pointer">
+                  <Avatar radius="full" size="3" src={session.user!.image!} fallback="" />
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                  <Text>{session.user!.email}</Text>
+                  <Button color="red" variant="soft">
+                    <Link href="/api/auth/signout">Logout</Link>
+                  </Button>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
             )}
             {status == "unauthenticated" && (
               <Button color="blue" variant="soft">
