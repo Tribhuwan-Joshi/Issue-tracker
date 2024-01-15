@@ -1,19 +1,20 @@
 "use client";
 
+import { Skeleton } from "@/app/components";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  DropdownMenu,
+  Flex,
+  Text,
+} from "@radix-ui/themes";
+import classnames from "classnames";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiFillBug } from "react-icons/ai";
-import classnames from "classnames";
-import { useSession } from "next-auth/react";
-import {
-  Box,
-  Button,
-  Flex,
-  Container,
-  DropdownMenu,
-  Avatar,
-  Text,
-} from "@radix-ui/themes";
 
 const NavBar = () => {
   return (
@@ -62,8 +63,8 @@ const NavLinks = () => {
 
 const Authoptions = () => {
   const { status, data: session } = useSession();
-  if (status == "loading") return null;
-  if (status == "unauthenticated")
+  if (status === "loading") return <Skeleton width="3rem" />;
+  if (status === "unauthenticated")
     return (
       <Button color="blue" variant="soft">
         <Link href="/api/auth/signin">Login</Link>
