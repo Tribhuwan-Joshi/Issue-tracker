@@ -1,11 +1,12 @@
 import { Button, Flex } from "@radix-ui/themes";
 import Link from "next/link";
 import IssueStatusFilter from "./IssueStatusFilter";
+import { Status } from "@prisma/client";
 
-const IssueActions = () => {
+const IssueActions = ({status}:{status : Status | undefined}) => {
   return (
     <Flex mb="5" justify="between">
-      <IssueStatusFilter />
+      <IssueStatusFilter status={status} />
       <Button>
         <Link href="/issues/new">NewIssue</Link>
       </Button>

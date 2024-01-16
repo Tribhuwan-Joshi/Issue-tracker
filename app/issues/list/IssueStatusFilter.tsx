@@ -18,14 +18,17 @@ const statuses: { label: string; status?: Status }[] = [
   },
 ];
 
-const IssueStatusFilter = () => {
+const IssueStatusFilter = ({ status }: { status: Status | undefined }) => {
+  const prevStatus = status || "";
   const router = useRouter();
+  
   return (
     <Select.Root
       onValueChange={(status) => {
         const query = status ? `?status=${status}` : "";
         router.push("/issues/list" + query);
       }}
+      defaultValue={prevStatus}
     >
       <Select.Trigger placeholder="Filter by status..." />
       <Select.Content>
