@@ -13,11 +13,6 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-export const metadata: Metadata = {
-  title: "Issue tracker",
-  description: "Track your issues with ease",
-};
-
 export default function RootLayout({
   children,
 }: {

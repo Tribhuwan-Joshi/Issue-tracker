@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import IssueChart from "./IssueChart";
 import IssueSummary from "./IssueSumary";
 import LatestIssue from "./LatestIssue";
@@ -22,10 +23,15 @@ export default async function Home() {
   return (
     <Grid columns={{ initial: "1", md: "2" }} gap="5">
       <Flex direction="column" gap="5">
-        <IssueSummary open={open} inProgress={inProgress} closed={closed} />
-        <IssueChart open={open} inProgress={inProgress} closed={closed} />
+        <IssueSummary open={open!} inProgress={inProgress!} closed={closed!} />
+        <IssueChart open={open!} inProgress={inProgress!} closed={closed!} />
       </Flex>
       <LatestIssue />
     </Grid>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Issue Tracker - Dashboard",
+  description: "View a summary of project issues",
+};
