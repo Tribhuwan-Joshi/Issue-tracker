@@ -1,8 +1,8 @@
-import prisma from "@/prisma/client";
-import { NextRequest, NextResponse } from "next/server";
-import { patchIssueSchema } from "@/app/validationSchema";
-import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
+import { patchIssueSchema } from "@/app/validationSchema";
+import prisma from "@/prisma/client";
+import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   request: NextRequest,
@@ -10,36 +10,33 @@ export async function PATCH(
 ) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({}, { status: 401 });
+
   const body = await request.json();
   const validation = patchIssueSchema.safeParse(body);
-  const id = parseInt(params.id);
   if (!validation.success)
-    return NextResponse.json(
-      { error: validation.error.format() },
-      { status: 400 }
-    );
-  const { title, description, assignedToUserId } = body;
-  if (assignedToUserId) {
-    // check that user exist
+    return NextResponse.json(validation.error.format(), {
+      status: 400,
+    });
+
+  let { assignedToUserId, title, description } = body;
+
+  if (assignedToUserId && assignedToUserId !== "unass") {
     const user = await prisma.user.findUnique({
       where: { id: assignedToUserId },
     });
-    if (assignedToUserId == "null" && !title && !description)
-      return NextResponse.json({ message: "Unassigned Issue" });
-    if (!user) {
+    if (!user)
       return NextResponse.json({ error: "Invalid user." }, { status: 400 });
-    }
   }
 
   const issue = await prisma.issue.findUnique({
-    where: { id },
+    where: { id: parseInt(params.id) },
   });
   if (!issue)
-    return NextResponse.json({ error: "Invalid Issue" }, { status: 404 });
-
+    return NextResponse.json({ error: "Invalid issue" }, { status: 404 });
+  assignedToUserId =
+    assignedToUserId && assignedToUserId !== "unass" ? assignedToUserId : null;
   const updatedIssue = await prisma.issue.update({
-    where: { id: id },
-
+    where: { id: issue.id },
     data: {
       title,
       description,
@@ -57,13 +54,16 @@ export async function DELETE(
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({}, { status: 401 });
 
-  const id = parseInt(params.id);
-  const issue = await prisma.issue.findUnique({ where: { id } });
+  const issue = await prisma.issue.findUnique({
+    where: { id: parseInt(params.id) },
+  });
+
   if (!issue)
-    return NextResponse.json({ error: "Invalid id" }, { status: 404 });
+    return NextResponse.json({ error: "Invalid issue" }, { status: 404 });
 
   await prisma.issue.delete({
-    where: { id },
+    where: { id: issue.id },
   });
+
   return NextResponse.json({});
 }

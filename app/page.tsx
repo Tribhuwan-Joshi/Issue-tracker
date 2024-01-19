@@ -1,3 +1,5 @@
+import LatestIssue from "./LatestIssue";
+
 export default function Home() {
-  <div>Page</div>;
+  return <LatestIssue />;
 }
