@@ -1,3 +1,4 @@
+import IssueChart from "./IssueChart";
 import IssueSummary from "./IssueSumary";
 import LatestIssue from "./LatestIssue";
 
@@ -19,6 +20,7 @@ export default async function Home() {
   });
   // return <LatestIssue />;
   return (
-    <IssueSummary closed={closed!} open={open!} inProgress={inProgress!} />
+    // <IssueSummary closed={closed!} open={open!} inProgress={inProgress!} />
+    <IssueChart closed={closed!} open={open!} inProgress={inProgress!} />
   );
 }
