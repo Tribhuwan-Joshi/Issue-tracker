@@ -1,20 +1,21 @@
 import { Metadata } from "next";
+import prisma from "@/prisma/client";
 import IssueChart from "./IssueChart";
 import IssueSummary from "./IssueSumary";
 import LatestIssue from "./LatestIssue";
 import { Flex, Grid } from "@radix-ui/themes";
 export default async function Home() {
-  const closed = await prisma?.issue.count({
+  const closed = await prisma.issue.count({
     where: {
       status: "CLOSED",
     },
   });
-  const inProgress = await prisma?.issue.count({
+  const inProgress = await prisma.issue.count({
     where: {
       status: "IN_PROGRESS",
     },
   });
-  const open = await prisma?.issue.count({
+  const open = await prisma.issue.count({
     where: {
       status: "OPEN",
     },
