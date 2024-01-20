@@ -2,8 +2,12 @@ import { Metadata } from "next";
 import prisma from "@/prisma/client";
 import IssueChart from "./IssueChart";
 import IssueSummary from "./IssueSumary";
-import LatestIssue from "./LatestIssue";
+import dynamic from "next/dynamic";
 import { Flex, Grid } from "@radix-ui/themes";
+
+const LatestIssue = dynamic(() => import("./LatestIssue"), {
+  ssr: false,
+});
 export default async function Home() {
   const closed = await prisma.issue.count({
     where: {
