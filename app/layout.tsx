@@ -24,12 +24,10 @@ export default function RootLayout({
         <QueryClientProvider>
           <AuthProvider>
             <Theme>
-              <Theme accentColor="iris">
-                <NavBar />
-                <main className="p-5 text-lg">
-                  <Container>{children}</Container>
-                </main>
-              </Theme>
+              <NavBar />
+              <main className="p-5 text-lg">
+                <Container>{children}</Container>
+              </main>
             </Theme>
           </AuthProvider>
         </QueryClientProvider>
