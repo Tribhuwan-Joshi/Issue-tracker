@@ -27,9 +27,9 @@ const DeleteButton = ({ issueId }: { issueId: number }) => {
     <>
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <button disabled={isDeleting} className="bg-red-500">
+          <Button disabled={isDeleting} variant="solid" color="red">
             <MdDelete /> Delete {isDeleting ? <Spinner /> : ""}
-          </button>
+          </Button>
         </AlertDialog.Trigger>
         <AlertDialog.Content>
           <AlertDialog.Title>Confirm Deletion</AlertDialog.Title>
