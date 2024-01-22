@@ -27,9 +27,9 @@ const DeleteButton = ({ issueId }: { issueId: number }) => {
     <>
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <Button disabled={isDeleting} variant="solid" color="red">
+          <button disabled={isDeleting} className="bg-red-500 text-white flex  justify-center gap-2 py-2 text-sm font-semibold items-center rounded-md">
             <MdDelete /> Delete {isDeleting ? <Spinner /> : ""}
-          </Button>
+          </button>
         </AlertDialog.Trigger>
         <AlertDialog.Content>
           <AlertDialog.Title>Confirm Deletion</AlertDialog.Title>
